@@ -1,0 +1,2 @@
+# TCGApp
+Zavrsna aplikacija
