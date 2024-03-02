@@ -35,6 +35,15 @@ builder.Services.AddSwaggerGen(sgo =>
 
 });
 
+builder.Services.AddCors(opcije =>
+{
+    opcije.AddPolicy("CorsPolicy",
+        builder =>
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+    );
+
+});
+
 builder.Services.AddDbContext<TCGContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString(name: "TCGContext"))
 );
@@ -57,6 +66,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
 
 app.UseDefaultFiles();
 
