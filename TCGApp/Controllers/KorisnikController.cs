@@ -54,7 +54,7 @@ namespace TCGApp.Controllers
                 {
                     return new EmptyResult();
                 }
-                return new JsonResult(korisnici);
+                return new JsonResult(korisnici.MapKorisnikReadList);
             }
             catch (Exception ex)
             {
@@ -63,30 +63,58 @@ namespace TCGApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Dodaje novog korisnika u bazu
-        /// </summary>
-        /// <remarks>
-        ///     POST api/v1/Korisnik
-        ///     {naziv: "Primjer naziva"}
-        /// </remarks>
-        /// <param name="korisnik">Korisnik za unijeti u JSON formatu</param>
-        /// <response code="201">Kreirano</response>
-        /// <response code="400">Zahtjev nije valjan (BadRequest)</response> 
-        /// <response code="503">Baza nedostupna iz razno raznih razloga</response> 
-        /// <returns>Smjer s šifrom koju je dala baza</returns>
-        [HttpPost]
-        public IActionResult Post(Korisnik korisnik)
+        [HttpGet]
+        [Route("{sifra:int}")]
+        public IActionResult GetBySifra(int sifra)
         {
-            if (!ModelState.IsValid || korisnik == null)
+            // kontrola ukoliko upit nije valjan
+            if (!ModelState.IsValid || sifra <= 0)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var korisnik = _context.Korisnici.Find(sifra);
+                if (korisnik == null)
+                {
+                    return new EmptyResult();
+                }
+                return new JsonResult(korisnik.MapKorisnikInsertUpdatedToDTO());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable,
+                    ex.Message);
+            }
+        }
+
+
+                /// <summary>
+                /// Dodaje novog korisnika u bazu
+                /// </summary>
+                /// <remarks>
+                ///     POST api/v1/Korisnik
+                ///     {naziv: "Primjer naziva"}
+                /// </remarks>
+                /// <param name="korisnik">Korisnik za unijeti u JSON formatu</param>
+                /// <response code="201">Kreirano</response>
+                /// <response code="400">Zahtjev nije valjan (BadRequest)</response> 
+                /// <response code="503">Baza nedostupna iz razno raznih razloga</response> 
+                /// <returns>Smjer s šifrom koju je dala baza</returns>
+                [HttpPost]
+        public IActionResult Post(KorisnikDTOInsertUpdate korisnikDTO)
+        {
+            if (!ModelState.IsValid || korisnikDTO == null)
             {
                 return BadRequest();
             }
             try
             {
+                var korisnik = korisnikDTO.MapKorisnikInsertUpdateFromDTO(new Korisnik());
                 _context.Korisnici.Add(korisnik);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, korisnik);
+                return StatusCode(StatusCodes.Status201Created, 
+                    korisnik.MapKorisnikReadToDTO());
             }
             catch (Exception ex)
             {
@@ -123,9 +151,9 @@ namespace TCGApp.Controllers
         /// <response code="503">Baza nedostupna</response> 
         [HttpPut]
         [Route("{sifra:int}")]
-        public IActionResult Put(int sifra, Korisnik korisnik)
+        public IActionResult Put(int sifra, KorisnikDTOInsertUpdate korisnikDTO)
         {
-            if (sifra <= 0 || !ModelState.IsValid || korisnik == null)
+            if (sifra <= 0 || !ModelState.IsValid || korisnikDTO == null)
             {
                 return BadRequest();
             }
@@ -141,21 +169,13 @@ namespace TCGApp.Controllers
                 {
                     return StatusCode(StatusCodes.Status204NoContent, sifra);
                 }
+                
+                var korisnik = korisnikDTO.MapKorisnikInsertUpdateFromDTO(korisnikIzBaze);
 
-
-                // inače ovo rade mapperi
-                // za sada ručno
-                korisnikIzBaze.Username = korisnik.Username;
-                korisnikIzBaze.Ime = korisnik.Ime;
-                korisnikIzBaze.Prezime = korisnik.Prezime;
-                korisnikIzBaze.Email = korisnik.Email;
-                korisnikIzBaze.Mjesto = korisnik.Mjesto;
-                korisnikIzBaze.Drzava = korisnik.Drzava;
-
-                _context.Korisnici.Update(korisnikIzBaze);
+                _context.Korisnici.Update(korisnik);
                 _context.SaveChanges();
 
-                return StatusCode(StatusCodes.Status200OK, korisnikIzBaze);
+                return StatusCode(StatusCodes.Status200OK, korisnik.MapSmjerReadToDTO());
             }
             catch (Exception ex)
             {
@@ -201,7 +221,7 @@ namespace TCGApp.Controllers
                 _context.Korisnici.Remove(korisnikIzbaze);
                 _context.SaveChanges();
 
-                return new JsonResult("{\"poruka\": \"Obrisano\"}"); // ovo nije baš najbolja praksa ali da znake kako i to može
+                return new JsonResult(new { poruka = "Obrisano" }); // ovo nije baš najbolja praksa ali da znake kako i to može
 
             }
             catch (Exception ex)

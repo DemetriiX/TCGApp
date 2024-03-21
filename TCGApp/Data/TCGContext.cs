@@ -1,5 +1,6 @@
 ﻿using TCGApp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace TCGApp.Data
 {
@@ -21,5 +22,14 @@ namespace TCGApp.Data
         /// Korisnici u bazi
         /// </summary>
         public DbSet<Korisnik> Korisnici { get; set; }
+
+        public DbSet<Kolekcija> Kolekcije { get; set; }
+
+        public DbSet<Igra> Igre { get; set; }
+
+        public DbSet<Slicica> Slicice { get; set; }
+
+        public DbSet<Rijetkost> Rijetkosti { get; set; }
+
     }
 }
