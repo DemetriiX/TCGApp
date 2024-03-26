@@ -24,8 +24,57 @@ async function getKorisnici(){
     });
 }
 
+async function obrisiKorisnika(sifra){
+    return await httpService.delete('/Korisnik/' + sifra)
+    .then((res)=>{
+        return {ok: true, poruka: res};
+    }).catch((e)=>{
+        console.log(e);
+    });
+}
+
+async function dodajKorisnika(korisnik){
+    const odgovor = await httpService.post('/Korisnik',korisnik)
+    .then(()=>{
+        return {ok: true, poruka: 'Uspješno dodano'}
+    })
+    .catch((e)=>{
+        console.log(e.response.data.errors);
+        return {ok: false, poruka: 'Greška'}
+    });
+    return odgovor;
+}
+
+async function promijeniKorisnika(sifra,korisnik){
+    const odgovor = await httpService.put('/Korisnik/'+sifra,korisnik)
+    .then(()=>{
+        return {ok: true, poruka: 'Uspješno promijenjeno'}
+    })
+    .catch((e)=>{
+        console.log(e.response.data.errors);
+        return {ok: false, poruka: 'Greška'}
+    });
+    return odgovor;
+}
+
+async function getBySifra(sifra){
+    return await httpService.get('/Korisnik/' + sifra)
+    .then((res)=>{
+        if(App.DEV) console.table(res.data);
+
+        return res;
+    }).catch((e)=>{
+        console.log(e);
+        return {poruka: e}
+    });
+}
+
 
 
 export default{
-    getKorisnici
+    getKorisnici,
+    obrisiKorisnika,
+    dodajKorisnika,
+    promijeniKorisnika,
+    getBySifra
 };

@@ -3,13 +3,13 @@ import { Container, Table } from "react-bootstrap";
 import KorisnikService from "../../services/KorisnikService";
 import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { MdOutlineDelete } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 
 
 export default function Korisnici(){
     const [korisnici,setKorisnici] = useState();
+    const navigate = useNavigate();
 
     async function dohvatiKorisnike(){
         await KorisnikService.getKorisnici()
@@ -23,6 +23,14 @@ export default function Korisnici(){
     useEffect(()=>{
         dohvatiKorisnike();
     },[]);
+
+    async function obrisiKorisnika(sifra){
+        const odgovor = await KorisnikService.obrisiKorisnika(sifra);
+        if (odgovor.ok){
+            alert(odgovor.poruka.data.poruka);
+            dohvatiKorisnike();
+        }
+    }
 
     return (
 

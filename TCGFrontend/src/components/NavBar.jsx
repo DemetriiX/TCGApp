@@ -30,8 +30,10 @@ function NavBar() {
               >
                 Korisnici
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Igre
+              <NavDropdown.Item
+              onClick={()=>navigate(RoutesNames.RIJETKOSTI_PREGLED)}
+              >
+                Rijetkosti
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">
                 Kolekcije

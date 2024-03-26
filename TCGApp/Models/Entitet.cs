@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EdunovaAPP.Models
+namespace TCGApp.Models
 {
     /// <summary>
     /// Ovo je vršna nad klasa koja služi za osnovne atribute
