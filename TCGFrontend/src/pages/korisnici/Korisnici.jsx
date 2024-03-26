@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import KorisnikService from "../../services/KorisnikService";
 import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -62,18 +62,23 @@ export default function Korisnici(){
                             <td className="desno">{korisnik.mjesto}</td>
                             <td className="desno">{korisnik.država}</td>
                             <td className="sredina">
-                                <Link to={RoutesNames.KORISNICI_PROMIJENI}>
-                                    <FaEdit 
+                                <Button
+                                variant="primary"
+                                onClick={()=>{navigate(`/korisnici/${korisnik.sifra}`)}}>
+                                    <FaEdit
                                     size={25}
                                     />
-                                </Link>
-                                
-                                    &nbsp;&nbsp;&nbsp;
-                                <Link>
-                                    <FaTrash  
-                                    size={25}
-                                    />
-                                </Link>
+                            </Button>
+                            
+                                &nbsp;&nbsp;&nbsp;
+                            <Button
+                                variant="danger"
+                                onClick={()=>obrisiKorisnika(korisnik.sifra)}
+                            >
+                                <FaTrash
+                                size={25}
+                                />
+                            </Button>
 
                             </td>
                         </tr>
