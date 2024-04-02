@@ -1,4 +1,4 @@
-﻿using EdunovaAPP.Models;
+﻿using TCGApp.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace TCGApp.Models

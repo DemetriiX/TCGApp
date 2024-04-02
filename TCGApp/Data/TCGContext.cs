@@ -33,5 +33,6 @@ namespace TCGApp.Data
 
         public DbSet<Slicica> Slicice { get; set; }
 
+
     }
 }

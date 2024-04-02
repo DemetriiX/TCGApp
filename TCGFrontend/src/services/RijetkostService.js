@@ -32,6 +32,7 @@ async function dodaj(entitet) {
     const odgovor = await httpService
     .post('/'+ naziv, entitet)
     .then(()=>{
+        console.log('Unio rijetkost');
         return { ok: true, poruka: 'Unio rijetkost'};
     })
     .catch((error) => {
@@ -48,7 +49,9 @@ async function getBySifra(sifra){
     .then((res) => res)
     .catch((e) => {
         console.log(e);
-        return { ok: false, poruka: error.response.data};
+
+        return { ok: false, poruka: e.response.data};
+
     });
 
 }
