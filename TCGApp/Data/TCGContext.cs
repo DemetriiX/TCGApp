@@ -1,5 +1,6 @@
 ﻿using TCGApp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace TCGApp.Data
 {
@@ -33,6 +34,18 @@ namespace TCGApp.Data
 
         public DbSet<Slicica> Slicice { get; set; }
 
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            // implementacija veze 1:n
+            modelBuilder.Entity<Kolekcija>().HasOne(k => k.Igra);
+            
+            modelBuilder.Entity<Slicica>().HasOne(s => s.Rijetkost);
+            modelBuilder.Entity<Slicica>().HasOne(s => s.Kolekcija);
+
+        }
 
     }
 }
