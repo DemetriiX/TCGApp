@@ -21,5 +21,17 @@ namespace TCGApp.Data
         /// Korisnici u bazi
         /// </summary>
         public DbSet<Korisnik> Korisnici { get; set; }
+
+        /// <summary>
+        /// Rijetkosti u bazi
+        /// </summary>
+        public DbSet<Rijetkost> Rijetkosti { get; set; }
+
+        public DbSet<Igra> Igre { get; set; }
+
+        public DbSet<Kolekcija> Kolekcije { get; set; }
+
+        public DbSet<Slicica> Slicice { get; set; }
+
     }
 }
