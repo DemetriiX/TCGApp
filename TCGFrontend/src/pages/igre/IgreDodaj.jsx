@@ -1,16 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
+import IgraService from "../../services/IgraService";
 import { RoutesNames } from "../../constants";
-import RijetkostService from "../../services/RijetkostService";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
-export default function RijetkostiDodaj() {
+export default function IgreDodaj() {
     const navigate = useNavigate();
   
   
-    async function dodajRijetkost(Rijetkost) {
-      const odgovor = await RijetkostService.dodaj(Rijetkost);
+    async function dodajIgru(Igra) {
+      const odgovor = await IgraService.dodaj(Igra);
       if (odgovor.ok) {
-        navigate(RoutesNames.RIJETKOSTI_PREGLED);
+        navigate(RoutesNames.IGRE_PREGLED);
       } else {
         alert(odgovor.poruka.errors);
       }
@@ -22,7 +22,7 @@ export default function RijetkostiDodaj() {
       const podaci = new FormData(e.target);
   
   
-      dodajRijetkost({
+      dodajIgru({
         naziv: podaci.get('naziv')
       });
     }
@@ -35,7 +35,7 @@ export default function RijetkostiDodaj() {
             <Form.Control
               type='text'
               name='naziv'
-              placeholder='Naziv rijetkosti'
+              placeholder='Naziv igre'
               maxLength={255}
               required
             />
@@ -45,13 +45,13 @@ export default function RijetkostiDodaj() {
 
           <Row>
             <Col>
-              <Link className='btn btn-danger gumb' to={RoutesNames.RIJETKOSTI_PREGLED}>
+              <Link className='btn btn-danger gumb' to={RoutesNames.IGRE_PREGLED}>
                 Odustani
               </Link>
             </Col>
             <Col>
               <Button variant='primary' className='gumb' type='submit'>
-                Dodaj rijetkost
+                Dodaj igru
               </Button>
             </Col>
           </Row>

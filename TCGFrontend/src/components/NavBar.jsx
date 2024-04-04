@@ -35,11 +35,14 @@ function NavBar() {
               >
                 Rijetkosti
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
-                Kolekcije
+              <NavDropdown.Item 
+                onClick={()=>navigate(RoutesNames.IGRE_PREGLED)}
+              >
+                Igre
               </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
+              <NavDropdown.Item
+                onClick={()=>navigate(RoutesNames.SLICICE_PREGLED)}
+              >
                 Sličice
               </NavDropdown.Item>
             </NavDropdown>
