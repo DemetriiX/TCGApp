@@ -2,11 +2,44 @@ import { Link, useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import SlicicaService from "../../services/SlicicaService";
+import { useEffect, useState } from "react";
+import KolekcijaService from "../../services/KolekcijaService";
+import RijetkostService from "../../services/RijetkostService";
 
 export default function SliciceDodaj() {
     const navigate = useNavigate();
-  
-  
+    
+    const [kolekcije, setKolekcije] = useState([]);
+    const [kolekcijaSifra, setKolekcijaSifra] = useState(0);
+
+    const [rijetkosti, setRijetkosti] = useState([]);
+    const [rijetkostiSifra, setRijetkostiSifra] = useState(0);
+
+    async function dohvatiKolekcije(){
+      await KolekcijaService.getKolekcije().
+      then((odgovor)=>{
+        setKolekcije(odgovor.data);
+        setKolekcijaSifra(odgovor.data[0].sifra);
+      });
+    }
+
+    async function dohvatiRijetkosti(){
+      await RijetkostService.get().
+      then((o)=>{
+        setRijetkosti(o.data);
+        setRijetkostiSifra(o.data[0].sifra);
+      });
+    }
+    
+    async function ucitaj(){
+      await dohvatiKolekcije();
+      await dohvatiRijetkosti();
+    }
+
+    useEffect(()=>{
+      ucitaj();
+    },[]);
+
     async function dodajSlicicu(Slicica) {
       const odgovor = await SlicicaService.dodaj(Slicica);
       if (odgovor.ok) {
@@ -23,7 +56,9 @@ export default function SliciceDodaj() {
   
   
       dodajSlicicu({
-        naziv: podaci.get('naziv')
+        naziv: podaci.get('naziv'),
+        kolekcijaSifra: parseInt(kolekcijaSifra),
+        rijetkostiSifra: parseInt(rijetkostiSifra)
       });
     }
   
@@ -40,6 +75,32 @@ export default function SliciceDodaj() {
               required
             />
           </Form.Group>
+
+          <Form.Group className='mb-3' controlId='kolekcija'>
+            <Form.Label>Kolekcija</Form.Label>
+            <Form.Select multiple={true}
+            onChange={(e)=>{setKolekcijaSifra(e.target.value)}}
+            >
+            {kolekcije && kolekcije.map((k,index)=>(
+              <option key={index} value={k.sifra}>
+                {k.naziv}
+              </option>
+            ))}
+            </Form.Select>
+          </Form.Group>
+
+        <Form.Group className='mb-3' controlId='rijetkost'>
+          <Form.Label>Rijetkost</Form.Label>
+          <Form.Select
+          onChange={(e)=>{setRijetkostiSifra(e.target.value)}}
+          >
+          {rijetkosti && rijetkosti.map((r,index)=>(
+            <option key={index} value={r.sifra}>
+              {r.naziv}
+            </option>
+          ))}
+          </Form.Select>
+        </Form.Group>
 
 
 

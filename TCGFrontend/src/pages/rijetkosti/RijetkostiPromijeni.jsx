@@ -4,7 +4,7 @@ import RijetkostService from "../../services/RijetkostService";
 import { RoutesNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
-export default function RijetkostiPromjeni() {
+export default function RijetkostiPromijeni() {
   const [rijetkost, setRijetkost] = useState({});
 
   const routeParams = useParams();

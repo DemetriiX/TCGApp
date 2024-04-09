@@ -12,7 +12,7 @@ import KorisniciPromijeni from "./pages/korisnici/KorisniciPromijeni"
 
 import Rijetkosti from "./pages/rijetkosti/Rijetkosti"
 import RijetkostiDodaj from "./pages/rijetkosti/RijetkostiDodaj"
-import RijetkostiPromjeni from "./pages/rijetkosti/RijetkostiPromijeni"
+import RijetkostiPromijeni from "./pages/rijetkosti/RijetkostiPromijeni"
 
 import Igre from "./pages/igre/Igre"
 import IgreDodaj from "./pages/igre/IgreDodaj"
@@ -21,6 +21,10 @@ import IgrePromijeni from "./pages/igre/IgrePromijeni"
 import Slicice from "./pages/sličice/Sličice"
 import SliciceDodaj from "./pages/sličice/SličiceDodaj"
 import SlicicePromijeni from "./pages/sličice/SličicePromijeni"
+
+import Kolekcije from "./pages/kolekcije/Kolekcije"
+import KolekcijeDodaj from "./pages/kolekcije/KolekcijeDodaj"
+import KolekcijePromijeni from "./pages/kolekcije/KolekcijePromijeni"
 
 
 
@@ -38,7 +42,7 @@ function App() {
 
           <Route path={RoutesNames.RIJETKOSTI_PREGLED} element={<Rijetkosti />} />
           <Route path={RoutesNames.RIJETKOSTI_NOVI} element={<RijetkostiDodaj />} />
-          <Route path={RoutesNames.RIJETKOSTI_PROMIJENI} element={<RijetkostiPromjeni />} />
+          <Route path={RoutesNames.RIJETKOSTI_PROMIJENI} element={<RijetkostiPromijeni />} />
 
           <Route path={RoutesNames.IGRE_PREGLED} element={<Igre />} />
           <Route path={RoutesNames.IGRE_NOVI} element={<IgreDodaj />} />
@@ -47,6 +51,12 @@ function App() {
           <Route path={RoutesNames.SLICICE_PREGLED} element={<Slicice />} />
           <Route path={RoutesNames.SLICICE_NOVI} element={<SliciceDodaj />} />
           <Route path={RoutesNames.SLICICE_PROMIJENI} element={<SlicicePromijeni />} />
+
+          <Route path={RoutesNames.KOLEKCIJE_PREGLED} element={<Kolekcije />} />
+          <Route path={RoutesNames.KOLEKCIJE_NOVI} element={<KolekcijeDodaj />} />
+          <Route path={RoutesNames.KOLEKCIJE_PROMIJENI} element={<KolekcijePromijeni />} />
+
+
         </>
       </Routes>
     </>

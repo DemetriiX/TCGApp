@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TCGApp.Data;
+using TCGApp.Extensions;
 using TCGApp.Models;
 
 namespace TCGApp.Controllers
@@ -26,12 +28,15 @@ namespace TCGApp.Controllers
             }
             try
             {
-                var lista = _context.Slicice.ToList();
+                var lista = _context.Slicice
+                    .Include(s => s.Kolekcija)
+                    .Include(s => s.Rijetkost)
+                    .ToList();
                 if (lista == null || lista.Count == 0)
                 {
                     return new EmptyResult();
                 }
-                return new JsonResult(lista);
+                return new JsonResult(lista.MapSlicicaReadList());
             }
             catch (Exception ex)
             {
@@ -51,12 +56,13 @@ namespace TCGApp.Controllers
             }
             try
             {
-                var r = _context.Slicice.Find(sifra);
+                var r = _context.Slicice.Include(i=>i.Kolekcija).Include(i=>i.Rijetkost)
+                    .FirstOrDefault(x => x.Sifra == sifra);
                 if (r == null)
                 {
                     return new EmptyResult();
                 }
-                return new JsonResult(r);
+                return new JsonResult(r.MapSlicicaInsertUpdatedToDTO());
             }
             catch (Exception ex)
             {
@@ -67,17 +73,36 @@ namespace TCGApp.Controllers
 
 
         [HttpPost]
-        public IActionResult Post(Slicica entitet)
+        public IActionResult Post(SlicicaDTOInsertUpdate dto)
         {
-            if (!ModelState.IsValid || entitet == null)
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest();
             }
-            try
+
+            var kolekcija = _context.Kolekcije.Find(dto.kolekcijaSifra);
+
+            if (kolekcija == null)
             {
+                return BadRequest();
+            }
+
+            var rijetkost = _context.Rijetkosti.Find(dto.rijetkostSifra);
+
+            if (rijetkost == null)
+            {
+                return BadRequest();
+            }
+
+            var entitet = dto.MapSlicicaInsertUpdateFromDTO(new Slicica());
+            entitet.Kolekcija = kolekcija;
+            entitet.Rijetkost = rijetkost;
+
+            try
+            {                
                 _context.Slicice.Add(entitet);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, entitet);
+                return StatusCode(StatusCodes.Status201Created, entitet.MapSlicicaReadToDTO);
             }
             catch (Exception ex)
             {
@@ -89,9 +114,9 @@ namespace TCGApp.Controllers
 
         [HttpPut]
         [Route("{sifra:int}")]
-        public IActionResult Put(int sifra, Slicica entitet)
+        public IActionResult Put(int sifra, SlicicaDTOInsertUpdate dto)
         {
-            if (sifra <= 0 || !ModelState.IsValid || entitet == null)
+            if (sifra <= 0 || !ModelState.IsValid || dto == null)
             {
                 return BadRequest();
             }
@@ -101,23 +126,38 @@ namespace TCGApp.Controllers
             {
 
 
-                var entitetIzBaze = _context.Slicice.Find(sifra);
+                var entitet = _context.Slicice.Include(i => i.Kolekcija).Include(i => i.Rijetkost)
+                    .FirstOrDefault(x => x.Sifra == sifra);
 
-                if (entitetIzBaze == null)
+                if (entitet == null)
                 {
                     return StatusCode(StatusCodes.Status204NoContent, sifra);
                 }
 
+                var kolekcija = _context.Kolekcije.Find(dto.kolekcijaSifra);
 
-                // inače ovo rade mapperi
-                // za sada ručno
-                entitetIzBaze.Naziv = entitet.Naziv;
+                if (kolekcija == null)
+                {
+                    return BadRequest();
+                }
 
+                var rijetkost = _context.Rijetkosti.Find(dto.rijetkostSifra);
 
-                _context.Slicice.Update(entitetIzBaze);
+                if (rijetkost == null)
+                {
+                    return BadRequest();
+                }
+
+                entitet = dto.MapSlicicaInsertUpdateFromDTO(entitet);
+
+                entitet.Kolekcija = kolekcija;
+                entitet.Rijetkost = rijetkost;
+                
+
+                _context.Slicice.Update(entitet);
                 _context.SaveChanges();
 
-                return StatusCode(StatusCodes.Status200OK, entitetIzBaze);
+                return StatusCode(StatusCodes.Status200OK, entitet.MapSlicicaReadToDTO());
             }
             catch (Exception ex)
             {

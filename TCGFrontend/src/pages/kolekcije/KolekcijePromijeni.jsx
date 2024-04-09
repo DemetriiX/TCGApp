@@ -1,37 +1,37 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import KolekcijaService from "../../services/KolekcijaService";
 import { RoutesNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import SlicicaService from "../../services/SlicicaService";
 
-export default function SlicicePromijeni() {
-    const [slicica, setSlicica] = useState({});
+export default function KolekcijePromijeni() {
+    const [kolekcija, setKolekcija] = useState({});
   
     const routeParams = useParams();
     const navigate = useNavigate();
   
   
-    async function dohvatiSlicicu() {
+    async function dohvatiKolekciju() {
   
-      await SlicicaService
+      await KolekcijaService
         .getBySifra(routeParams.sifra)
         .then((response) => {
           console.log(response);
-          setSlicica(response.data);
+          setKolekcija(response.data);
         })
         .catch((err) => alert(err.poruka));
   
     }
   
     useEffect(() => {
-      dohvatiSlicicu();
+      dohvatiKolekciju();
     }, []);
   
-    async function promijeniSlicicu(slicica) {
-      const odgovor = await SlicicaService.promijeni(routeParams.sifra, slicica);
+    async function promijeniKolekciju(kolekcija) {
+      const odgovor = await KolekcijaService.promijeni(routeParams.sifra, kolekcija);
   
       if (odgovor.ok) {
-        navigate(RoutesNames.SLICICE_PREGLED);
+        navigate(RoutesNames.KOLEKCIJE_PREGLED);
       } else {
         alert(odgovor.poruka);
   
@@ -42,7 +42,7 @@ export default function SlicicePromijeni() {
       e.preventDefault();
   
       const podaci = new FormData(e.target);
-      promijeniSlicicu({
+      promijeniKolekciju({
         naziv: podaci.get('naziv')
       });
     }
@@ -56,7 +56,7 @@ export default function SlicicePromijeni() {
             <Form.Control
               type='text'
               name='naziv'
-              defaultValue={slicica.naziv}
+              defaultValue={kolekcija.naziv}
               maxLength={255}
               required
             />
@@ -66,13 +66,13 @@ export default function SlicicePromijeni() {
   
           <Row>
             <Col>
-              <Link className='btn btn-danger gumb' to={RoutesNames.SLICICE_PREGLED}>
+              <Link className='btn btn-danger gumb' to={RoutesNames.KOLEKCIJE_PREGLED}>
                 Odustani
               </Link>
             </Col>
             <Col>
               <Button variant='primary' className='gumb' type='submit'>
-                Promijeni sličicu
+                Promijeni kolekciju
               </Button>
             </Col>
           </Row>

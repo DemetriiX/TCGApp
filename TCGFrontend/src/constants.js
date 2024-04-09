@@ -14,7 +14,11 @@ export const RoutesNames = {
 
     SLICICE_PREGLED: '/slicice',
     SLICICE_NOVI: '/slicice/dodaj',
-    SLICICE_PROMIJENI: '/slicice/:sifra'
+    SLICICE_PROMIJENI: '/slicice/:sifra',
+
+    KOLEKCIJE_PREGLED: '/kolekcije',
+    KOLEKCIJE_NOVI: '/kolekcije/dodaj',
+    KOLEKCIJE_PROMIJENI: '/kolekcije/:sifra'
 };
 
 export const App = {

@@ -6,7 +6,7 @@ namespace TCGApp.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class KolekcijaController:ControllerBase
+    public class KolekcijaController : ControllerBase
     {
         private readonly TCGContext _context;
 
