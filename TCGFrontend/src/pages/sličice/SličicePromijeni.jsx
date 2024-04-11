@@ -51,7 +51,7 @@ export default function SlicicePromijeni() {
       <Container className='mt-4'>
         <Form onSubmit={handleSubmit}>
   
-        <Form.Group className='mb-3' controlId='naziv'>
+          <Form.Group className='mb-3' controlId='naziv'>
             <Form.Label>Naziv</Form.Label>
             <Form.Control
               type='text'
@@ -59,6 +59,47 @@ export default function SlicicePromijeni() {
               defaultValue={slicica.naziv}
               maxLength={255}
               required
+            />
+          </Form.Group>
+
+          <Form.Group className='mb-3' controlId='kolekcija'>
+            <Form.Label>Kolekcija</Form.Label>
+            <Form.Control
+              type='text'
+              name='kolekcija'
+              defaultValue={slicica.kolekcija}
+              maxLength={255}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className='mb-3' controlId='brojslicice'>
+            <Form.Label>Broj sličice</Form.Label>
+            <Form.Control
+              type='text'
+              name='brojslicice'
+              defaultValue={slicica.brojslicice}
+              maxLength={255}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className='mb-3' controlId='rijetkost'>
+            <Form.Label>Rijetkost</Form.Label>
+            <Form.Control
+              type='text'
+              name='rijetkost'
+              defaultValue={slicica.rijetkost}
+              maxLength={255}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group controlId="posebnoizdanje">
+            <Form.Check 
+              label="Posebno izdanje"
+              defaultChecked={slicica.posebnoizdanje}
+              name="posebnoizdanje"
             />
           </Form.Group>
   

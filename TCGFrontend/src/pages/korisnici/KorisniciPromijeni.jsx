@@ -56,7 +56,7 @@ export default function KorisniciPromijeni(){
     },[]);
 
     async function promijeniKorisnika(korisnik){
-        const odgovor = await KorisnikServicesS.promijeniKorisnika(routeParams.sifra,korisnik);
+        const odgovor = await KorisnikService.promijeniKorisnika(routeParams.sifra,korisnik);
         if(odgovor.ok){
           navigate(RoutesNames.KORISNICI_PREGLED);
         }else{
@@ -88,10 +88,91 @@ export default function KorisniciPromijeni(){
 
     return (
 
-        <Container>
+    <Container className='mt-4'>
+      <Form onSubmit={handleSubmit}>
 
+        <Form.Group className='mb-3' controlId='username'>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type='text'
+            name='username'
+            defaultValue={korisnik.username}
+            maxLength={255}
+            required
+          />
+        </Form.Group>
 
-        </Container>
+        <Form.Group className='mb-3' controlId='ime'>
+            <Form.Label>Ime</Form.Label>
+            <Form.Control
+                type='text'
+                name='ime'
+                defaultValue={korisnik.ime}
+                maxLength={255}
+                required
+            />
+        </Form.Group>
+
+        <Form.Group className='mb-3' controlId='prezime'>
+            <Form.Label>Prezime</Form.Label>
+            <Form.Control
+                type='text'
+                name='prezime'
+                defaultValue={korisnik.prezime}
+                maxLength={255}
+                required
+            />
+        </Form.Group>
+
+        <Form.Group className='mb-3' controlId='email'>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+                type='text'
+                name='email'
+                defaultValue={korisnik.email}
+                maxLength={255}
+                required
+            />
+        </Form.Group>
+
+        <Form.Group className='mb-3' controlId='mjesto'>
+            <Form.Label>Mjesto</Form.Label>
+            <Form.Control
+                type='text'
+                name='mjesto'
+                defaultValue={korisnik.mjesto}
+                maxLength={255}
+                required
+            />
+        </Form.Group>
+
+        <Form.Group className='mb-3' controlId='drzava'>
+            <Form.Label>Država</Form.Label>
+            <Form.Control
+                type='text'
+                name='drzava'
+                defaultValue={korisnik.drzava}
+                maxLength={255}
+                required
+            />
+        </Form.Group>
+
+        
+
+        <Row>
+          <Col>
+            <Link className='btn btn-danger gumb' to={RoutesNames.KORISNICI_PREGLED}>
+              Odustani
+            </Link>
+          </Col>
+          <Col>
+            <Button variant='primary' className='gumb' type='submit'>
+              Promijeni korisnika
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
 
     );
 

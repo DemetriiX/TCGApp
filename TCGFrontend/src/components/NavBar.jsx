@@ -45,6 +45,11 @@ function NavBar() {
               >
                 Sličice
               </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={()=>navigate(RoutesNames.KOLEKCIJE_PREGLED)}
+              >
+                Kolekcije
+              </NavDropdown.Item>
             </NavDropdown>
             
           </Nav>
