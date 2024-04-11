@@ -26,9 +26,11 @@ export default function Korisnici(){
 
     async function obrisiKorisnika(sifra){
         const odgovor = await KorisnikService.obrisiKorisnika(sifra);
-        if (odgovor.ok){
-            alert(odgovor.poruka.data.poruka);
+        
+        if (odgovor.ok) {
             dohvatiKorisnike();
+        } else {
+            alert(odgovor.poruka);
         }
     }
 

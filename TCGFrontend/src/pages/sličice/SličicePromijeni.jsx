@@ -3,14 +3,38 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import SlicicaService from "../../services/SlicicaService";
+import KolekcijaService from "../../services/KolekcijaService";
+import RijetkostService from "../../services/RijetkostService";
 
 export default function SlicicePromijeni() {
     const [slicica, setSlicica] = useState({});
   
     const routeParams = useParams();
     const navigate = useNavigate();
-  
-  
+
+    const [kolekcije, setKolekcije] = useState([]);
+    const [kolekcijaSifra, setKolekcijaSifra] = useState(0);
+
+    const [rijetkosti, setRijetkosti] = useState([]);
+    const [rijetkostiSifra, setRijetkostiSifra] = useState(0);
+
+    async function dohvatiKolekcije(){
+      await KolekcijaService.get().
+      then((odgovor)=>{
+        setKolekcije(odgovor.data);
+        setKolekcijaSifra(odgovor.data[0].sifra);
+      });
+    }
+
+    async function dohvatiRijetkosti(){
+      await RijetkostService.get().
+      then((o)=>{
+        setRijetkosti(o.data);
+        setRijetkostiSifra(o.data[0].sifra);
+      });
+    }
+    
+
     async function dohvatiSlicicu() {
   
       await SlicicaService
@@ -22,9 +46,15 @@ export default function SlicicePromijeni() {
         .catch((err) => alert(err.poruka));
   
     }
+
+    async function ucitaj(){
+      await dohvatiKolekcije();
+      await dohvatiRijetkosti();
+      await dohvatiSlicicu();
+    }
   
     useEffect(() => {
-      dohvatiSlicicu();
+      ucitaj();
     }, []);
   
     async function promijeniSlicicu(slicica) {
@@ -43,7 +73,11 @@ export default function SlicicePromijeni() {
   
       const podaci = new FormData(e.target);
       promijeniSlicicu({
-        naziv: podaci.get('naziv')
+        naziv: podaci.get('naziv'),
+        kolekcijaSifra: parseInt(kolekcijaSifra),
+        rijetkostSifra: parseInt(rijetkostiSifra),
+        brojslicice: podaci.get('brojslicice'),
+        posebnoizdanje: podaci.get('posebnoizdanje')
       });
     }
   

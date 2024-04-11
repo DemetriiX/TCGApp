@@ -26,7 +26,7 @@ export default function Slicice(){
     },[]);
     
     function posebnoizdanje(slicica){
-        if (slicica.posebnoizdanje==null) return 'gray';
+        if (slicica.posebnoizdanje==null) return 'grey';
         if(slicica.posebnoizdanje) return 'green';
         return 'red';
     }

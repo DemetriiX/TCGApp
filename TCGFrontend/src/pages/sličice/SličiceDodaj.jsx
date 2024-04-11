@@ -16,7 +16,7 @@ export default function SliciceDodaj() {
     const [rijetkostiSifra, setRijetkostiSifra] = useState(0);
 
     async function dohvatiKolekcije(){
-      await KolekcijaService.getKolekcije().
+      await KolekcijaService.get().
       then((odgovor)=>{
         setKolekcije(odgovor.data);
         setKolekcijaSifra(odgovor.data[0].sifra);
@@ -58,7 +58,7 @@ export default function SliciceDodaj() {
       dodajSlicicu({
         naziv: podaci.get('naziv'),
         kolekcijaSifra: parseInt(kolekcijaSifra),
-        rijetkostiSifra: parseInt(rijetkostiSifra)
+        rijetkostSifra: parseInt(rijetkostiSifra)
       });
     }
   

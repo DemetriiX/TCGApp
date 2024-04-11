@@ -102,7 +102,7 @@ namespace TCGApp.Controllers
             {                
                 _context.Slicice.Add(entitet);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, entitet.MapSlicicaReadToDTO);
+                return StatusCode(StatusCodes.Status201Created, entitet.MapSlicicaReadToDTO());
             }
             catch (Exception ex)
             {
@@ -124,7 +124,6 @@ namespace TCGApp.Controllers
 
             try
             {
-
 
                 var entitet = _context.Slicice.Include(i => i.Kolekcija).Include(i => i.Rijetkost)
                     .FirstOrDefault(x => x.Sifra == sifra);
