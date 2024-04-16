@@ -58,7 +58,9 @@ export default function SliciceDodaj() {
       dodajSlicicu({
         naziv: podaci.get('naziv'),
         kolekcijaSifra: parseInt(kolekcijaSifra),
-        rijetkostSifra: parseInt(rijetkostiSifra)
+        rijetkostSifra: parseInt(rijetkostiSifra),
+        brojslicice: podaci.get('brojslicice'),
+        posebnoizdanje: podaci.get('posebnoizdanje')=='on' ? true: false
       });
     }
   
@@ -89,6 +91,17 @@ export default function SliciceDodaj() {
             </Form.Select>
           </Form.Group>
 
+          <Form.Group className='mb-3' controlId='brojslicice'>
+            <Form.Label>Broj sličice</Form.Label>
+            <Form.Control
+              type='text'
+              name='brojslicice'
+              placeholder='Broj sličice'
+              maxLength={255}
+              required
+            />
+          </Form.Group>
+
         <Form.Group className='mb-3' controlId='rijetkost'>
           <Form.Label>Rijetkost</Form.Label>
           <Form.Select
@@ -100,6 +113,13 @@ export default function SliciceDodaj() {
             </option>
           ))}
           </Form.Select>
+        </Form.Group>
+
+        <Form.Group controlId="posebnoizdanje">
+          <Form.Check 
+            label="Posebno izdanje"
+            name="posebnoizdanje"
+          />
         </Form.Group>
 
 
