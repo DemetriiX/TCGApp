@@ -77,7 +77,7 @@ export default function SlicicePromijeni() {
         kolekcijaSifra: parseInt(kolekcijaSifra),
         rijetkostSifra: parseInt(rijetkostiSifra),
         brojslicice: podaci.get('brojslicice'),
-        posebnoizdanje: podaci.get('posebnoizdanje')
+        posebnoizdanje: podaci.get('posebnoizdanje')=='on' ? true: false
       });
     }
   
@@ -98,13 +98,19 @@ export default function SlicicePromijeni() {
 
           <Form.Group className='mb-3' controlId='kolekcija'>
             <Form.Label>Kolekcija</Form.Label>
-            <Form.Control
-              type='text'
-              name='kolekcija'
-              defaultValue={slicica.kolekcija}
-              maxLength={255}
-              required
-            />
+            <Form.Select
+              value={kolekcijaSifra}
+              onChange={(e) => {
+                setKolekcijaSifra(e.target.value);
+              }}
+            >
+              {kolekcije &&
+                kolekcije.map((kolekcija, index) => (
+                  <option key={index} value={kolekcija.sifra}>
+                    {kolekcija.naziv}
+                  </option>
+                ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className='mb-3' controlId='brojslicice'>

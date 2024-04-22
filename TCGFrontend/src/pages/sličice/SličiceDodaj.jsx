@@ -80,14 +80,18 @@ export default function SliciceDodaj() {
 
           <Form.Group className='mb-3' controlId='kolekcija'>
             <Form.Label>Kolekcija</Form.Label>
-            <Form.Select multiple={true}
-            onChange={(e)=>{setKolekcijaSifra(e.target.value)}}
+            <Form.Select
+              value={kolekcijaSifra}
+              onChange={(e) => {
+                setKolekcijaSifra(e.target.value);
+              }}
             >
-            {kolekcije && kolekcije.map((k,index)=>(
-              <option key={index} value={k.sifra}>
-                {k.naziv}
-              </option>
-            ))}
+              {kolekcije &&
+                kolekcije.map((kolekcija, index) => (
+                  <option key={index} value={kolekcija.sifra}>
+                    {kolekcija.naziv}
+                  </option>
+                ))}
             </Form.Select>
           </Form.Group>
 
